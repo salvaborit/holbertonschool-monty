@@ -1,12 +1,12 @@
 #ifndef MONTY_H
 #define MONTY_H
 
-#define DELIM " \t\n"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -37,5 +37,21 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+
+/**
+ * opc_int - global variable for the second parameter in the lines
+ * @arg: the parameter
+ * Description: This global variable stores the value of the 
+ * second parameter in each itearion of the while loop in 
+ * the "op_file" function (see main.c for more details)
+ */
+typedef struct opc_int
+{
+        char *integer;
+} opc;
+opc token;
+
+void usageMsg(void);
 
 #endif /*MONTY_H*/
