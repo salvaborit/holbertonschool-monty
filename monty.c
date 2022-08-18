@@ -11,9 +11,9 @@ int main(int ac, char *av[])
 {
 /*	stack_t *head = NULL; */
 	FILE *fp = NULL;
-	char line[1023], lineAux[1023], *delims = " \t\n", *token = NULL;
-	char **lineArr = NULL;
-	int i;
+	char line[1023], lineAux[1023], *delims = " \t\n";
+	char *opcode = NULL, *strArg = NULL;
+	int intArg = 0;
 
 	if (ac != 2)
 	{
@@ -30,28 +30,15 @@ int main(int ac, char *av[])
 	
 	while (fgets(line, 1024, fp) != NULL) 
 	{
-		lineArr = malloc(1024);
-		if (!lineArr)
-		{
-			fprintf(stderr, "Error: malloc failed");
-			exit(EXIT_FAILURE);
-		}
-
 		strcpy(lineAux, line);
-		token = strtok(lineAux, delims);
-		for (i = 0; token; i++)
-		{
-			lineArr[i] = strdup(token);
-			token = strtok(NULL, delims);
-		}
-		lineArr[i] = NULL;
+		opcode = strtok(lineAux, delims);
+		strArg = strtok(NULL, delims);
+		if (strArg)
+			intArg = atoi(strArg);
+		printf("opcode = %s, strArg = %s, intArg = %d\n", opcode, strArg, intArg);
 
-		while (lineArr[i])
-			printf("%s ", lineArr[i++]);
-
-		if (lineArr)
-			free(lineArr);
-		lineArr = NULL;
+		opcode = strArg = NULL;
+		intArg = 0;
 	}
 
 	fclose(fp);
@@ -59,4 +46,7 @@ int main(int ac, char *av[])
 }
 /*
 void (*opcode(char *s))()
+
+fprintf(stderr, "Error: malloc failed");
+exit(EXIT_FAILURE);
 */
