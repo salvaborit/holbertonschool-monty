@@ -1,45 +1,174 @@
 #include "monty.h"
+#include <ctype.h>
 
-void errorMsg(char *);
-void op_file(char *);
+void usageMsg(void);
+void fileMsg(char *);
+void op_file(FILE *);
+void get_op_func(char *, int, stack_t **);
+void push(stack_t **, unsigned int );
+void pall(stack_t **, unsigned int);
+void mallocError(void);
+void unknownError(unsigned int, char *);
+void free_stack(stack_t *);
+void free_stack_dp(stack_t **);
 
 int main(int ac, char **av)
 {
+	int ret_val = 0;
+	FILE *fp;
+
 	if (ac != 2)
 	{
-		errorMsg("USAGE: monty file\n");
+		usageMsg();
 	}
-	op_file(av[1]);
+	
+	fp = fopen(av[1], "r");
+	if (!fp)
+		fileMsg(av[1]);
+	op_file(fp);
 	return (0);
 }
 
-void op_file(char *file)
+void op_file(FILE *file)
 {
-	char *buff;
-	char *tok = NULL;
-	char **tokens = NULL;
-	FILE *fp = fopen(file, "r");
-	int i = 0, j;
+	int ret_val = 0;
+	stack_t *st;
+	char *buff = NULL;
+	char *args = NULL;
+	unsigned int line;
 
-	buff = malloc(1024);
-	tokens = malloc(sizeof(char *) * 156);
-	while (fgets(buff, 156, fp))
+	buff = malloc(sizeof(char *) * 1024);
+	line = 1;
+	while (fgets(buff, 1024, file) != NULL)
 	{
-		tok = strtok(buff, " \t\n");
-		while (tok != NULL)
-		{
-			tokens[i] = tok;
-			printf("%s\n", tok);
-			tok = strtok(NULL, " \t\n");
-			i++;
-		}
+			args = strtok(buff, " \n\t");
+			if (!args || strcmp(buff, "\n") == 0)
+			{
+				line++;
+				continue;
+			}
+			int_value.integer = strtok(NULL, " \n\t");
+			get_op_func(args, line, &st);
+			line++;
 	}
-	fclose(fp);
-	
+	fclose(file);
+	free(buff);
+	free_stack(st);
 }
 
-void errorMsg(char *message)
+void get_op_func(char *args, int line, stack_t **stack)
 {
-	printf("%s", message);
+	int i = 0, ret_val = 0, found = 0;
+	instruction_t ops[] = {
+		{"push", push},
+		{"pall", pall},
+		/*{"pint", op_pint},
+		{"pop", op_pop},
+		{"swap", op_swap},
+		{"add", op_add},
+		{"nop", op_nop},*/
+		{NULL, NULL}
+	};
+
+	while (ops[i].opcode)
+	{
+		if (strcmp(args, ops[i].opcode) == 0)
+		{
+			ops[i].f(stack, line);
+			found = 1;
+		}
+		i++;
+	}
+	if (found != 1)
+	{
+		unknownError(line, args);
+	}
+}
+
+void unknownError(unsigned int line, char *args)
+{
+	fprintf(stderr, "L%d: unknown instruction %s\n", line, args);
+	exit(EXIT_FAILURE);
+}
+
+void free_stack(stack_t *stack)
+{
+	stack_t *p;
+
+	while (stack)
+	{
+		p = stack->next;
+		free(stack);
+		stack = p;
+	}
+}
+
+void free_stack_dp(stack_t **stack)
+{
+	stack_t *p;
+
+	while (stack)
+	{
+		p = (*stack)->next;
+		free(stack);
+		*stack = p;
+	}
+}
+
+void push(stack_t **stack, unsigned int line)
+{
+	stack_t *newNode;
+	char *converted_value = int_value.integer;
+	int i = 0;
+
+	while(converted_value[i] != '\0')
+	{
+		if (isdigit(converted_value[i]) == 0)
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", line);
+			//free_stack_dp(stack);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+
+	newNode = malloc(sizeof(stack_t));
+	if (!newNode)
+	{
+		mallocError();
+	}
+	newNode->n = atoi(converted_value);
+	newNode->prev = NULL;
+	newNode->next = *stack;
+
+	if (*stack != NULL)
+		(*stack)->prev = newNode;
+	*stack = newNode;
+}
+
+void mallocError(void)
+{
+	fprintf(stderr, "Error: malloc failed\n");
+	exit(EXIT_FAILURE);
+}
+
+void pall(stack_t **stack, unsigned int line)
+{
+	while (*stack)
+	{
+		printf("%d\n", (*stack)->n);
+		*stack = (*stack)->next;
+	}
+}
+
+void fileMsg(char *file)
+{
+	fprintf(stderr, "Error: Can't open the file %s\n", file);
+	exit(EXIT_FAILURE);
+}
+
+void usageMsg(void)
+{
+	fprintf(stderr, "USAGE: monty file\n");
 	exit(EXIT_FAILURE);
 }

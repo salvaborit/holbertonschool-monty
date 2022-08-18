@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -38,10 +39,9 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-
 /**
  * opc_int - global variable for the second parameter in the lines
- * @arg: the parameter
+ * @integer: the parameter
  * Description: This global variable stores the value of the 
  * second parameter in each itearion of the while loop in 
  * the "op_file" function (see main.c for more details)
@@ -49,9 +49,7 @@ typedef struct instruction_s
 typedef struct opc_int
 {
         char *integer;
-} opc;
-opc token;
-
-void usageMsg(void);
+} opc_i;
+opc_i int_value;
 
 #endif /*MONTY_H*/
