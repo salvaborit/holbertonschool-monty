@@ -35,9 +35,12 @@ int main(int ac, char *av[])
 	{
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, delims);
-		strArg = strtok(NULL, delims);
+		if(opcode)
+			strArg = strtok(NULL, delims);
 
-		// printf("isdigit_s resullt = %d\n", isdigit_s(strArg));
+		//printf("opcode = %s\nstrArg = %s\n", opcode, strArg)
+
+		// printf("isdigit_s result = %d\n", isdigit_s(strArg));
 
 		// if(!isdigit_s(strArg) || !strArg || strlen(strArg) != 1)
 		// {
@@ -49,17 +52,18 @@ int main(int ac, char *av[])
 			intArg = atoi(strArg);
 			ARG = intArg;
 		}
-	
 
-		f = get_opcode_func(opcode);
-		if (f)
-			f(&head, lineNum);
-		else
+		if (opcode[0] != 13)
 		{
-			printf("L%d: unknown instruction %s\n", lineNum, opcode);
-			exit(EXIT_FAILURE);
+			f = get_opcode_func(opcode);
+			if (f)
+				f(&head, lineNum);
+			else
+			{
+				printf("L%d: unknown instruction %s\n", lineNum, opcode);
+				exit(EXIT_FAILURE);
+			}
 		}
-
 		opcode = strArg = NULL;
 		intArg = 0;
 		lineNum++;
