@@ -9,7 +9,7 @@ void push(stack_t **, unsigned int );
 void pall(stack_t **, unsigned int);
 void mallocError(void);
 void unknownError(unsigned int, char *);
-void free_stack(stack_t *);
+void free_stack(stack_t **);
 void free_stack_dp(stack_t **);
 
 int main(int ac, char **av)
@@ -55,7 +55,7 @@ void op_file(FILE *file)
 	}
 	fclose(file);
 	free(buff);
-	//free_stack(st);
+	free_stack(&st);
 }
 
 void get_op_func(char *args, int line, stack_t **stack)
@@ -93,15 +93,17 @@ void unknownError(unsigned int line, char *args)
 	exit(EXIT_FAILURE);
 }
 
-void free_stack(stack_t *stack)
+void free_stack(stack_t **stack)
 {
 	stack_t *p;
 
-	while (stack)
+	if (!stack || !*stack)
+		return;
+	while (*stack)
 	{
-		p = stack->next;
-		//free(stack);
-		stack = p;
+		p = *stack;
+		*stack = p->next;
+		free(p);
 	}
 }
 
