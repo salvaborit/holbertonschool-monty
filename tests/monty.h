@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <ctype.h>
 
+extern char *global;
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -46,10 +47,16 @@ typedef struct instruction_s
  * second parameter in each itearion of the while loop in 
  * the "op_file" function (see main.c for more details)
  */
-typedef struct opc_int
+/*typedef struct opc_int
 {
         char *integer;
 } opc_i;
-opc_i int_value;
+opc_i int_value;*/
+
+void usageMsg(void);
+void fileMsg(char *);
+void mallocError(void);
+void unknownError(unsigned int, char *);
+void pintError(unsigned int);
 
 #endif /*MONTY_H*/

@@ -1,18 +1,20 @@
 #include "monty.h"
 #include <ctype.h>
 
-void op_file(FILE *);
 void get_op_func(char *, int, stack_t **);
 void push(stack_t **, unsigned int );
 void pall(stack_t **, unsigned int);
 void free_stack(stack_t **);
-void free_stack_dp(stack_t **);
 void pint(stack_t **, unsigned int);
+void pop(stack_t **, unsigned int);
+char *global = NULL;
 
 int main(int ac, char **av)
 {
-	//printf("entra en el main\n");
-	int ret_val = 0;
+	stack_t *st = NULL;
+	char *buff = NULL;
+	char *args = NULL;
+	unsigned int line;
 	FILE *fp;
 
 	if (ac != 2)
@@ -23,20 +25,9 @@ int main(int ac, char **av)
 	fp = fopen(av[1], "r");
 	if (!fp)
 		fileMsg(av[1]);
-	op_file(fp);
-	return (0);
-}
-
-void op_file(FILE *file)
-{
-	stack_t *st = NULL;
-	char *buff = NULL;
-	char *args = NULL;
-	unsigned int line;
-
 	buff = malloc(sizeof(char *) * 1024);
 	line = 1;
-	while (fgets(buff, 1024, file) != NULL)
+	while (fgets(buff, 1024, fp) != NULL)
 	{
 			args = strtok(buff, " \n\t");
 			if (!args || strcmp(buff, "\n") == 0)
@@ -44,31 +35,30 @@ void op_file(FILE *file)
 				line++;
 				continue;
 			}
-			int_value.integer = strtok(NULL, " \n\t");
+			global = strtok(NULL, " \n\t");
 			get_op_func(args, line, &st);
 			line++;
 	}
 	free(buff);
-	free_stack(&st);
-	free(int_value.integer);
-	fclose(file);
-	return;
+	//free_stack(&st);
+	fclose(fp);
+	return (0);
 }
 
 void get_op_func(char *args, int line, stack_t **stack)
 {
-	int i = 0;
+	int i = 0, found = 0;
 	instruction_t ops[] = {
 		{"push", push},
 		{"pall", pall},
 		{"pint", pint},
-		/*{"pop", op_pop},
-		{"swap", op_swap},
+		{"pop", pop},
+		/*{"swap", op_swap},
 		{"add", op_add},
 		{"nop", op_nop},*/
 		{NULL, NULL}
 	};
-	//printf("entra en getopfunc\n");
+
 	while (ops[i].opcode)
 	{
 		if (strcmp(args, ops[i].opcode) == 0)
@@ -81,6 +71,18 @@ void get_op_func(char *args, int line, stack_t **stack)
 	unknownError(line, args);
 }
 
+void pop(stack_t **stack, unsigned int line)
+{
+	stack_t *p = *stack;
+
+	if (!p)
+	{
+		//popError(line);
+	}
+	*stack = (*stack)->next;
+	free(p);
+}
+
 void pint(stack_t **stack, unsigned int line)
 {
 	if (!stack || !*stack)
@@ -91,48 +93,31 @@ void pint(stack_t **stack, unsigned int line)
 void free_stack(stack_t **stack)
 {
 	stack_t *p;
-
 	if (!stack || !*stack)
 		return;
 	while (*stack)
 	{
 		p = *stack;
-		*stack = p->next;
+		*stack = (*stack)->next;
 		free(p);
-	}
-}
-
-void free_stack_dp(stack_t **stack)
-{
-	stack_t *p;
-
-	while (stack)
-	{
-		p = (*stack)->next;
-		//free(stack);
-		*stack = p;
 	}
 }
 
 void push(stack_t **stack, unsigned int line)
 {
 	stack_t *newNode = NULL;
-	char *converted_value = int_value.integer;
+	char *converted_value = global;
 	int i = 0;
 
-	//printf("entra en la funcion push\n");
 	while(converted_value[i] != '\0')
 	{
-		//printf("entra en el while de isdigit\n");
 		if (isdigit(converted_value[i]) == 0)
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line);
-			//free_stack_dp(stack);
 			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
-	//printf("es un entero\n");
 
 	newNode = malloc(sizeof(stack_t));
 	if (!newNode)
@@ -156,5 +141,3 @@ void pall(stack_t **stack, unsigned int line)
 		*stack = (*stack)->next;
 	}
 }
-
-
