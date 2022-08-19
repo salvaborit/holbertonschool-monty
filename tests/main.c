@@ -35,7 +35,6 @@ int main(int ac, char **av)
 
 void op_file(FILE *file)
 {
-	int ret_val = 0;
 	stack_t *st = NULL;
 	char *buff = NULL;
 	char *args = NULL;
@@ -58,6 +57,7 @@ void op_file(FILE *file)
 	free(buff);
 	free_stack(&st);
 	fclose(file);
+	return;
 }
 
 void get_op_func(char *args, int line, stack_t **stack)
