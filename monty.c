@@ -53,7 +53,7 @@ int main(int ac, char *av[])
 			ARG = intArg;
 		}
 
-		if (opcode[0] != 13)
+		if (opcode) /* skip blank like */
 		{
 			f = get_opcode_func(opcode);
 			if (f)
