@@ -11,6 +11,8 @@ void mallocError(void);
 void unknownError(unsigned int, char *);
 void free_stack(stack_t **);
 void free_stack_dp(stack_t **);
+void pint(stack_t **, unsigned int);
+void pintError(unsigned int);
 
 int main(int ac, char **av)
 {
@@ -60,12 +62,12 @@ void op_file(FILE *file)
 
 void get_op_func(char *args, int line, stack_t **stack)
 {
-	int i = 0, ret_val = 0, found = 0;
+	int i = 0;
 	instruction_t ops[] = {
 		{"push", push},
 		{"pall", pall},
-		/*{"pint", op_pint},
-		{"pop", op_pop},
+		{"pint", pint},
+		/*{"pop", op_pop},
 		{"swap", op_swap},
 		{"add", op_add},
 		{"nop", op_nop},*/
@@ -77,16 +79,26 @@ void get_op_func(char *args, int line, stack_t **stack)
 		if (strcmp(args, ops[i].opcode) == 0)
 		{
 			ops[i].f(stack, line);
-			found = 1;
+			return;
 		}
 		i++;
 	}
-	if (found != 1)
-	{
-		unknownError(line, args);
-	}
+	unknownError(line, args);
 }
 
+void pint(stack_t **stack, unsigned int line)
+{
+	if (!stack || !*stack)
+		pintError(line);
+	printf("%d\n", (*stack)->n);
+}
+
+void pintError(unsigned int line)
+{
+	fprintf(stderr, "L%d: can't pint, stack empty\n", line);
+	//free_stack(&)
+	exit(EXIT_FAILURE);
+}
 void unknownError(unsigned int line, char *args)
 {
 	fprintf(stderr, "L%d: unknown instruction %s\n", line, args);
