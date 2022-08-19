@@ -14,6 +14,7 @@ void free_stack_dp(stack_t **);
 
 int main(int ac, char **av)
 {
+	//printf("entra en el main\n");
 	int ret_val = 0;
 	FILE *fp;
 
@@ -25,6 +26,7 @@ int main(int ac, char **av)
 	fp = fopen(av[1], "r");
 	if (!fp)
 		fileMsg(av[1]);
+	//printf("el archivo existe\n");
 	op_file(fp);
 	return (0);
 }
@@ -32,7 +34,7 @@ int main(int ac, char **av)
 void op_file(FILE *file)
 {
 	int ret_val = 0;
-	stack_t *st;
+	stack_t *st = NULL;
 	char *buff = NULL;
 	char *args = NULL;
 	unsigned int line;
@@ -53,7 +55,7 @@ void op_file(FILE *file)
 	}
 	fclose(file);
 	free(buff);
-	free_stack(st);
+	//free_stack(st);
 }
 
 void get_op_func(char *args, int line, stack_t **stack)
@@ -69,7 +71,7 @@ void get_op_func(char *args, int line, stack_t **stack)
 		{"nop", op_nop},*/
 		{NULL, NULL}
 	};
-
+	//printf("entra en getopfunc\n");
 	while (ops[i].opcode)
 	{
 		if (strcmp(args, ops[i].opcode) == 0)
@@ -98,7 +100,7 @@ void free_stack(stack_t *stack)
 	while (stack)
 	{
 		p = stack->next;
-		free(stack);
+		//free(stack);
 		stack = p;
 	}
 }
@@ -110,19 +112,21 @@ void free_stack_dp(stack_t **stack)
 	while (stack)
 	{
 		p = (*stack)->next;
-		free(stack);
+		//free(stack);
 		*stack = p;
 	}
 }
 
 void push(stack_t **stack, unsigned int line)
 {
-	stack_t *newNode;
+	stack_t *newNode = NULL;
 	char *converted_value = int_value.integer;
 	int i = 0;
 
+	//printf("entra en la funcion push\n");
 	while(converted_value[i] != '\0')
 	{
+		//printf("entra en el while de isdigit\n");
 		if (isdigit(converted_value[i]) == 0)
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line);
@@ -131,6 +135,7 @@ void push(stack_t **stack, unsigned int line)
 		}
 		i++;
 	}
+	//printf("es un entero\n");
 
 	newNode = malloc(sizeof(stack_t));
 	if (!newNode)
@@ -144,6 +149,7 @@ void push(stack_t **stack, unsigned int line)
 	if (*stack != NULL)
 		(*stack)->prev = newNode;
 	*stack = newNode;
+	//printf("crea el nuevo nodo bien\n");
 }
 
 void mallocError(void)
