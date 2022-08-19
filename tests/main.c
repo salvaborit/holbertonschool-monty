@@ -56,8 +56,8 @@ void op_file(FILE *file)
 			line++;
 	}
 	free(buff);
-	fclose(file);
 	free_stack(&st);
+	fclose(file);
 }
 
 void get_op_func(char *args, int line, stack_t **stack)
