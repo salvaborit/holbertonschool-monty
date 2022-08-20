@@ -15,7 +15,7 @@ int main(int ac, char *av[])
 
 	/*execution*/
 	int lineNum = 1;
-	char line[1023], lineAux[1023], *opcode = NULL; 
+	char line[1023], lineAux[1023], *opcode = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number);
 
 	if (ac != 2)
@@ -68,7 +68,7 @@ int main(int ac, char *av[])
 void execution(FILE *fp, stack_t *head)
 {
 	int lineNum = 1;
-	char line[1023], lineAux[1023], *opcode = NULL; 
+	char line[1023], lineAux[1023], *opcode = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number);
 
 	while (fgets(line, 1024, fp) != NULL)
