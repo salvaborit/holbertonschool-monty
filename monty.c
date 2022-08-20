@@ -30,8 +30,8 @@ int main(int ac, char *av[])
 		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
-	
-	while (fgets(line, 1024, fp) != NULL) 
+
+	while (fgets(line, 1024, fp) != NULL)
 	{
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, delims);
