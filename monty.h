@@ -53,14 +53,19 @@ void op_swap(stack_t **stack, unsigned int line_number);
 void op_add(stack_t **stack, unsigned int line_number);
 void op_nop(stack_t **stack, unsigned int line_number);
 
-/* list_funcs.c */
+/* list_funcs1.c */
 stack_t *add_nodeint(stack_t **head, const int n);
 size_t print_dlistint(const stack_t *h);
 int delete_dnodeint_at_index(stack_t **head, unsigned int index);
+size_t stack_t_len(const stack_t *h);
 void free_stack_t(stack_t *head);
+
+/* list_funcs2.c */
+int sum_stack_t(stack_t *head);
 
 /* aux_funcs.c */
 void monty_ac_verif(int ac);
+FILE *fopen_file(char *file);
 int isdigit_s(char *s);
 
 #endif /* MONTY_H */

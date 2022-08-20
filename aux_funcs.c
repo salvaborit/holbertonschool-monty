@@ -14,6 +14,19 @@ void monty_ac_verif(int ac)
 	}
 }
 
+FILE *fopen_file(char *filename)
+{
+	FILE *fp = NULL;
+
+	fp = fopen(filename, "r");
+	if (!fp)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", filename);
+		exit(EXIT_FAILURE);
+	}
+	return (fp);
+}
+
 /**
  * isdigit_s - checks if a string is only made up of digits (no negative)
  * @s: str to be checked

@@ -58,7 +58,8 @@ int delete_dnodeint_at_index(stack_t **head, unsigned int index)
 	if (index == 0)
 	{
 		*head = (*head)->next;
-		(*head)->prev = NULL;
+		if ((*head)->prev)
+			(*head)->prev = NULL;
 		free(temp);
 		return (1);
 	}
@@ -82,6 +83,20 @@ int delete_dnodeint_at_index(stack_t **head, unsigned int index)
 	nextNode->prev = prevNode;
 	free(temp);
 	return (1);
+}
+
+/**
+* stack_t_len - returns number of elements in a stack_t list
+* @h: pointer to head node
+* Return: number of elements in linked list
+*/
+size_t stack_t_len(const stack_t *h)
+{
+	int i;
+
+	for (i = 0; h != NULL; i++)
+		h = h->next;
+	return (i);
 }
 
 /**

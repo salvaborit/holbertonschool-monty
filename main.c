@@ -18,12 +18,8 @@ int main(int ac, char *av[])
 	void (*f)(stack_t **stack, unsigned int line_number);
 
 	monty_ac_verif(ac);
-	fp = fopen(av[1], "r");
-	if (!fp)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
-		exit(EXIT_FAILURE);
-	}
+	fp = fopen_file(av[1]);
+
 	/* execution(fp, head); */
 	while (fgets(line, 1024, fp) != NULL)
 	{

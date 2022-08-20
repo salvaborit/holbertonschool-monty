@@ -56,8 +56,11 @@ void op_push(stack_t **stack, unsigned int line_number)
 void op_pall(stack_t **stack, unsigned int line_number)
 {
 	(void) line_number;
+	stack_t *head = *stack;
 
-	print_dlistint(*stack);
+	if (!head)
+		return;
+	print_dlistint(head);
 }
 
 /**
@@ -91,5 +94,5 @@ void op_pop(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	delete_dnodeint_at_index(stack, 0);
+	delete_dnodeint_at_index(&head, 0);
 }
