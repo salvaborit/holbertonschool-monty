@@ -13,6 +13,11 @@ int main(int ac, char *av[])
 	stack_t *head = NULL;
 	FILE *fp = NULL;
 
+	/*execution*/
+	int lineNum = 1;
+	char line[1023], lineAux[1023], *opcode = NULL; 
+	void (*f)(stack_t **stack, unsigned int line_number);
+
 	if (ac != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
@@ -26,29 +31,29 @@ int main(int ac, char *av[])
 		exit(EXIT_FAILURE);
 	}
 
-	execution(fp, head);
+	// execution(fp, head);
 
-	// while (fgets(line, 1024, fp) != NULL)
-	// {
-	// 	strcpy(lineAux, line);
-	// 	opcode = strtok(lineAux, delims);
+	while (fgets(line, 1024, fp) != NULL)
+	{
+		strcpy(lineAux, line);
+		opcode = strtok(lineAux, " \t\n\r");
 
-	// 	if (opcode) /* skip blank line */
-	// 	{
-	// 		f = get_opc_func(opcode);
-	// 		if (f)
-	// 			f(&head, lineNum);
-	// 		else
-	// 		{
-	// 			fprintf(stderr, "L%d: unknown instruction %s\n", lineNum, opcode);
-	// 			if (head)
-	// 				free_stack_t(head);
-	// 			exit(EXIT_FAILURE);
-	// 		}
-	// 	}
-	// 	opcode = strArg = NULL;
-	// 	lineNum++;
-	// }
+		if (opcode) /* skip blank line */
+		{
+			f = get_opc_func(opcode);
+			if (f)
+				f(&head, lineNum);
+			else
+			{
+				fprintf(stderr, "L%d: unknown instruction %s\n", lineNum, opcode);
+				if (head)
+					free_stack_t(head);
+				exit(EXIT_FAILURE);
+			}
+		}
+		opcode = NULL;
+		lineNum++;
+	}
 
 	free_stack_t(head);
 	fclose(fp);
