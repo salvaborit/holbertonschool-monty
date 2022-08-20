@@ -13,9 +13,9 @@ int main(int ac, char *av[])
 	stack_t *head = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number);
 	FILE *fp = NULL;
-	char line[1023], lineAux[1023], *delims = " \t\n";
+	char line[1023], lineAux[1023], *delims = " \t\n\r";
 	char *opcode = NULL, *strArg = NULL;
-	int lineNum = 1, intArg = 0;
+	int lineNum = 1;
 
 
 	if (ac != 2)
@@ -36,18 +36,6 @@ int main(int ac, char *av[])
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, delims);
 
-		// if(!isdigit_s(strArg) || !strArg || strlen(strArg) != 1)
-		// {
-		// 	fprintf(stderr, "L%d: usage: push integer\n", lineNum);
-		// 	exit (EXIT_FAILURE);
-		// }
-		
-		if (strArg)
-		{
-			intArg = atoi(strArg);
-			ARG = intArg;
-		}
-
 		if (opcode) /* skip blank like */
 		{
 			f = get_opcode_func(opcode);
@@ -60,7 +48,6 @@ int main(int ac, char *av[])
 			}
 		}
 		opcode = strArg = NULL;
-		intArg = 0;
 		lineNum++;
 	}
 
@@ -107,14 +94,17 @@ void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
 
 void op_push(stack_t **stack, unsigned int line_number)
 {
-	char *strArg = NULL, *delims = " \t\n";
+	char *strArg = NULL;
 
-	strArg = strtok(NULL, delims);
-	if (!isdigit_s(strArg))
+	strArg = strtok(NULL, " \t\n\r");
+
+	if (!strArg || isdigit_s(strArg) == 0)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
+
+	ARG = atoi(strArg);
 	add_nodeint(stack, ARG);
 }
 
