@@ -39,14 +39,17 @@ typedef struct instruction_s
      void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/* opcode_funcs.c */
 void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number);
 void op_push(stack_t **stack, unsigned int line_number);
 void op_pall(stack_t **stack, unsigned int line_number);
+void op_pint(stack_t **stack, unsigned int line_number);
 
-/* stack list funcs */
+/* list_funcs.c */
 stack_t *add_nodeint(stack_t **head, const int n);
 size_t print_dlistint(const stack_t *h);
 
+/* aux_funcs.c */
 int isdigit_s(char *s);
 
 #endif /* MONTY_H */
