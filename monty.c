@@ -35,18 +35,13 @@ int main(int ac, char *av[])
 	{
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, delims);
-		if(opcode)
-			strArg = strtok(NULL, delims);
-
-		//printf("opcode = %s\nstrArg = %s\n", opcode, strArg)
-
-		// printf("isdigit_s result = %d\n", isdigit_s(strArg));
 
 		// if(!isdigit_s(strArg) || !strArg || strlen(strArg) != 1)
 		// {
 		// 	fprintf(stderr, "L%d: usage: push integer\n", lineNum);
 		// 	exit (EXIT_FAILURE);
 		// }
+		
 		if (strArg)
 		{
 			intArg = atoi(strArg);
@@ -60,7 +55,7 @@ int main(int ac, char *av[])
 				f(&head, lineNum);
 			else
 			{
-				printf("L%d: unknown instruction %s\n", lineNum, opcode);
+				fprintf(stderr, "L%d: unknown instruction %s\n", lineNum, opcode);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -71,6 +66,28 @@ int main(int ac, char *av[])
 
 	fclose(fp);
 	return(1);
+}
+
+/**
+ * isdigit_s - checks if a string is only made up of digits (no negative)
+ * @s: str to be checked
+ * Return: 1 if all are digits, 0 if at least 1 is not a digit
+ */
+int isdigit_s(char *s)
+{
+	int i = 1;
+
+	if (!s)
+		return (0);
+	if ((s[0] < '0' || s[0] > '9') && s[0] != '-')
+		return (0);
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
@@ -90,8 +107,14 @@ void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
 
 void op_push(stack_t **stack, unsigned int line_number)
 {
-	(void) line_number;
+	char *strArg = NULL, *delims = " \t\n";
 
+	strArg = strtok(NULL, delims);
+	if (!isdigit_s(strArg))
+	{
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 	add_nodeint(stack, ARG);
 }
 
@@ -138,26 +161,4 @@ size_t print_dlistint(const stack_t *h)
 		stackSize++;
 	}
 	return (stackSize);
-}
-/**
- * isdigit_s - checks if a string has no digits
- * @s: str to be checked
- * Return: 1 if !decimal, 0 if decimal
- */
-int isdigit_s(char *s)
-{
-	int i;
-	char dec = 48; /*ascii 0*/
-
-	while (dec < 58) /*ascii 9 ++*/
-	{
-		while (s)
-		{
-			if (s[i] == dec)
-				return (1);
-			i++;
-		}
-		dec++;
-	}
-	return (0);
 }
