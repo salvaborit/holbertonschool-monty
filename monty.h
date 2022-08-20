@@ -54,6 +54,7 @@ void op_nop(stack_t **stack, unsigned int line_number);
 stack_t *add_nodeint(stack_t **head, const int n);
 size_t print_dlistint(const stack_t *h);
 int delete_dnodeint_at_index(stack_t **head, unsigned int index);
+void free_stack_t(stack_t *head);
 
 /* aux_funcs.c */
 int isdigit_s(char *s);

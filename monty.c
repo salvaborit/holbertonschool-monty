@@ -50,7 +50,7 @@ int main(int ac, char *av[])
 		opcode = strArg = NULL;
 		lineNum++;
 	}
-
+	free_stack_t(head);
 	fclose(fp);
 	exit(EXIT_SUCCESS);
 }

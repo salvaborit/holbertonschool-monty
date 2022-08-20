@@ -83,3 +83,19 @@ int delete_dnodeint_at_index(stack_t **head, unsigned int index)
 	free(temp);
 	return (1);
 }
+
+/**
+* free_stack_t - frees a stack_t list
+* @head: pointer to head node
+*/
+void free_stack_t(stack_t *head)
+{
+	stack_t *temp;
+
+	while (head)
+	{
+		temp = head->next;
+		free(head);
+		head = temp;
+	}
+}
