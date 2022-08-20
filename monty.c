@@ -44,6 +44,8 @@ int main(int ac, char *av[])
 			else
 			{
 				fprintf(stderr, "L%d: unknown instruction %s\n", lineNum, opcode);
+				if (head)
+					free_stack_t(head);
 				exit(EXIT_FAILURE);
 			}
 		}
