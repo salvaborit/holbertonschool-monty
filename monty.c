@@ -18,26 +18,17 @@ int main(int ac, char *av[])
 	void (*f)(stack_t **stack, unsigned int line_number);
 
 	monty_ac_verif(ac);
-	// if (ac != 2)
-	// {
-	// 	fprintf(stderr, "USAGE: monty file\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-
 	fp = fopen(av[1], "r");
 	if (!fp)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
-
-	// execution(fp, head);
-
+	/* execution(fp, head); */
 	while (fgets(line, 1024, fp) != NULL)
 	{
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, " \t\n\r");
-
 		if (opcode) /* skip blank line */
 		{
 			f = get_opc_func(opcode);
@@ -54,7 +45,6 @@ int main(int ac, char *av[])
 		opcode = NULL;
 		lineNum++;
 	}
-
 	free_stack_t(head);
 	fclose(fp);
 	exit(EXIT_SUCCESS);

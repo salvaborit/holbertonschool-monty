@@ -8,10 +8,10 @@
 void monty_ac_verif(int ac)
 {
 	if (ac != 2)
-		{
-			fprintf(stderr, "USAGE: monty file\n");
-			exit(EXIT_FAILURE);
-		}
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
