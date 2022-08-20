@@ -38,7 +38,7 @@ int main(int ac, char *av[])
 
 		if (opcode) /* skip blank line */
 		{
-			f = get_opcode_func(opcode);
+			f = get_opc_func(opcode);
 			if (f)
 				f(&head, lineNum);
 			else

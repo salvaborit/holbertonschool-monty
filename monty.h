@@ -40,7 +40,7 @@ typedef struct instruction_s
 } instruction_t;
 
 /* opcode_funcs1.c */
-void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number);
+void (*get_opc_func(char *opcode))(stack_t **stack, unsigned int line_number);
 void op_push(stack_t **stack, unsigned int line_number);
 void op_pall(stack_t **stack, unsigned int line_number);
 void op_pint(stack_t **stack, unsigned int line_number);

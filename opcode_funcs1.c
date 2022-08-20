@@ -1,21 +1,21 @@
 #include "monty.h"
 
 /**
- * get_opcode_func - selects the function to perform the opcode
+ * get_opc_func - selects the function to perform the opcode
  * @opcode: opcode
  * Return: function linked to opcode to be performed
  */
-void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
+void (*get_opc_func(char *opcode))(stack_t **stack, unsigned int line_number)
 {
 	int i;
 	instruction_t opcodes[] = {
 		{"push", op_push},
 		{"pall", op_pall},
-        {"pint", op_pint},
-        {"pop", op_pop},
-        {"swap", op_swap},
-        {"add", op_add},
-        {"nop", op_nop},
+		{"pint", op_pint},
+		{"pop", op_pop},
+		{"swap", op_swap},
+		{"add", op_add},
+		{"nop", op_nop},
 		{NULL, NULL}
 	};
 
@@ -66,14 +66,14 @@ void op_pall(stack_t **stack, unsigned int line_number)
  */
 void op_pint(stack_t **stack, unsigned int line_number)
 {
-    stack_t *head = *stack;
+	stack_t *head = *stack;
 
-    if (!head)
-    {
-        fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-        exit(EXIT_FAILURE);    
-    }
-    printf("%d\n", head->n);
+	if (!head)
+	{
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%d\n", head->n);
 }
 
 /**
@@ -83,13 +83,12 @@ void op_pint(stack_t **stack, unsigned int line_number)
  */
 void op_pop(stack_t **stack, unsigned int line_number)
 {
-    stack_t *head = *stack;
+	stack_t *head = *stack;
 
-    if (!head)
-    {
-        fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    delete_dnodeint_at_index(stack, 0);
-    
+	if (!head)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	delete_dnodeint_at_index(stack, 0);
 }
