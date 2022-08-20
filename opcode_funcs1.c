@@ -12,6 +12,10 @@ void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
 		{"push", op_push},
 		{"pall", op_pall},
         {"pint", op_pint},
+        {"pop", op_pop},
+        {"swap", op_swap},
+        {"add", op_add},
+        {"nop", op_nop},
 		{NULL, NULL}
 	};
 
@@ -22,7 +26,7 @@ void (*get_opcode_func(char *opcode))(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * op_push - pushes an int to the top of the stack
+ * op_push - pushes an element to the top of the stack
  * @stack: pointer to head node of stack_t list
  * @line_number: number of line the opcode was called
  */
@@ -56,14 +60,36 @@ void op_pall(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * op_pint - prints element at the top of the stack
+ * op_pint - prints the value at the top of the stack
  * @stack: pointer to head node of stack_t list
  * @line_number: number of line the opcode was called
  */
 void op_pint(stack_t **stack, unsigned int line_number)
 {
-    (void) line_number;
-    stack_t *firstNode = *stack;
+    stack_t *head = *stack;
 
-    printf("%d\n", firstNode->n);
+    if (!head)
+    {
+        fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+        exit(EXIT_FAILURE);    
+    }
+    printf("%d\n", head->n);
+}
+
+/**
+ * op_pop - removes the top element of the stack
+ * @stack: pointer to head node of stack_t list
+ * @line_number: number of line the opcode was called
+ */
+void op_pop(stack_t **stack, unsigned int line_number)
+{
+    stack_t *head = *stack;
+
+    if (!head)
+    {
+        fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+    delete_dnodeint_at_index(stack, 0);
+    
 }

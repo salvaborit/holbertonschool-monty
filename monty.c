@@ -52,5 +52,5 @@ int main(int ac, char *av[])
 	}
 
 	fclose(fp);
-	return(1);
+	exit(EXIT_SUCCESS);
 }
