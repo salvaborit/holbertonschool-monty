@@ -12,17 +12,17 @@ int main(int ac, char *av[])
 {
 	stack_t *head = NULL;
 	FILE *fp = NULL;
-
 	/*execution*/
 	int lineNum = 1;
 	char line[1023], lineAux[1023], *opcode = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number);
 
-	if (ac != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
+	monty_ac_verif(ac);
+	// if (ac != 2)
+	// {
+	// 	fprintf(stderr, "USAGE: monty file\n");
+	// 	exit(EXIT_FAILURE);
+	// }
 
 	fp = fopen(av[1], "r");
 	if (!fp)

@@ -60,6 +60,7 @@ int delete_dnodeint_at_index(stack_t **head, unsigned int index);
 void free_stack_t(stack_t *head);
 
 /* aux_funcs.c */
+void monty_ac_verif(int ac);
 int isdigit_s(char *s);
 
 #endif /* MONTY_H */

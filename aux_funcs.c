@@ -1,5 +1,19 @@
 #include "monty.h"
 
+
+/**
+ * monty_ac_verif - verifies if ./monty usage is correct (ac == 2)
+ * @ac: argument count
+ */
+void monty_ac_verif(int ac)
+{
+	if (ac != 2)
+		{
+			fprintf(stderr, "USAGE: monty file\n");
+			exit(EXIT_FAILURE);
+		}
+}
+
 /**
  * isdigit_s - checks if a string is only made up of digits (no negative)
  * @s: str to be checked
