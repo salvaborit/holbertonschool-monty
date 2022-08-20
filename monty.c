@@ -36,7 +36,7 @@ int main(int ac, char *av[])
 		strcpy(lineAux, line);
 		opcode = strtok(lineAux, delims);
 
-		if (opcode) /* skip blank like */
+		if (opcode) /* skip blank line */
 		{
 			f = get_opcode_func(opcode);
 			if (f)
@@ -106,6 +106,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 
 	ARG = atoi(strArg);
 	add_nodeint(stack, ARG);
+	ARG = 0;
 }
 
 void op_pall(stack_t **stack, unsigned int line_number)
