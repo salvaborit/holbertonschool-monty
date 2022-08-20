@@ -45,6 +45,7 @@ void op_push(stack_t **stack, unsigned int line_number)
 	ARG = atoi(strArg);
 	add_nodeint(stack, ARG);
 	ARG = 0;
+	strArg = NULL;
 }
 
 /**

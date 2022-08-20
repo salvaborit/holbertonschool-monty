@@ -11,12 +11,7 @@ int ARG = 0;
 int main(int ac, char *av[])
 {
 	stack_t *head = NULL;
-	void (*f)(stack_t **stack, unsigned int line_number);
 	FILE *fp = NULL;
-	char line[1023], lineAux[1023], *delims = " \t\n\r";
-	char *opcode = NULL, *strArg = NULL;
-	int lineNum = 1;
-
 
 	if (ac != 2)
 	{
@@ -31,10 +26,45 @@ int main(int ac, char *av[])
 		exit(EXIT_FAILURE);
 	}
 
+	execution(fp, head);
+
+	// while (fgets(line, 1024, fp) != NULL)
+	// {
+	// 	strcpy(lineAux, line);
+	// 	opcode = strtok(lineAux, delims);
+
+	// 	if (opcode) /* skip blank line */
+	// 	{
+	// 		f = get_opc_func(opcode);
+	// 		if (f)
+	// 			f(&head, lineNum);
+	// 		else
+	// 		{
+	// 			fprintf(stderr, "L%d: unknown instruction %s\n", lineNum, opcode);
+	// 			if (head)
+	// 				free_stack_t(head);
+	// 			exit(EXIT_FAILURE);
+	// 		}
+	// 	}
+	// 	opcode = strArg = NULL;
+	// 	lineNum++;
+	// }
+
+	free_stack_t(head);
+	fclose(fp);
+	exit(EXIT_SUCCESS);
+}
+
+void execution(FILE *fp, stack_t *head)
+{
+	int lineNum = 1;
+	char line[1023], lineAux[1023], *opcode = NULL; 
+	void (*f)(stack_t **stack, unsigned int line_number);
+
 	while (fgets(line, 1024, fp) != NULL)
 	{
 		strcpy(lineAux, line);
-		opcode = strtok(lineAux, delims);
+		opcode = strtok(lineAux, " \t\n\r");
 
 		if (opcode) /* skip blank line */
 		{
@@ -49,10 +79,7 @@ int main(int ac, char *av[])
 				exit(EXIT_FAILURE);
 			}
 		}
-		opcode = strArg = NULL;
+		opcode = NULL;
 		lineNum++;
 	}
-	free_stack_t(head);
-	fclose(fp);
-	exit(EXIT_SUCCESS);
 }
