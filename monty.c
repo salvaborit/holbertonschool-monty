@@ -60,6 +60,11 @@ int main(int ac, char *av[])
 	exit(EXIT_SUCCESS);
 }
 
+/**
+ * execution - main loop
+ * @fp: file pointer to .m file to read
+ * @head: pointer to head node of stack_t
+ */
 void execution(FILE *fp, stack_t *head)
 {
 	int lineNum = 1;
