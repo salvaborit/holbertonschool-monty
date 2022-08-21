@@ -7,8 +7,27 @@
  */
 void op_swap(stack_t **stack, unsigned int line_number)
 {
-	(void) stack;
 	(void) line_number;
+	stack_t *head = *stack;
+	int sum, i = 0;
+
+	while (head)
+	{
+		head = head->next;
+		i++;
+	}
+	/*stackSize = stack_t_len(head);*/
+	/*if (stackSize < 2)*/
+	if (i < 2)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	(*stack) = (*stack)->next;
+	head->next = (*stack)->next;
+	head->prev = *stack;
+	(*stack)->prev = NULL;
+	(*stack)->next = head;
 }
 
 /**
