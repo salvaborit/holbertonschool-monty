@@ -24,7 +24,7 @@ void op_add(stack_t **stack, unsigned int line_number)
 	stackSize = stack_t_len(head);
 	if (stackSize < 2)
 	{
-		fprintf(stderr, "L%d: can't add, stack too short", line_number);
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	sum = (*stack)->n + head->n;
