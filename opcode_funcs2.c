@@ -29,7 +29,7 @@ void op_add(stack_t **stack, unsigned int line_number)
 	}
 	sum = (*stack)->n + head->n;
 	head = head->next;
-	pop(stack, line_number);
+	op_pop(stack, line_number);
 	head->n = sum;
 	/*sum = sum_stack_t(head);
 	delete_dnodeint_at_index(&head, 0);
