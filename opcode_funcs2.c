@@ -9,7 +9,7 @@ void op_swap(stack_t **stack, unsigned int line_number)
 {
 	(void) line_number;
 	stack_t *head = *stack;
-	int sum, i = 0;
+	int i = 0;
 
 	while (head)
 	{
