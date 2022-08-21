@@ -9,7 +9,7 @@ void op_swap(stack_t **stack, unsigned int line_number)
 {
 	(void) line_number;
 	stack_t *head = *stack;
-	int i = 0;
+	int sum, i = 0;
 
 	while (head)
 	{
@@ -23,11 +23,9 @@ void op_swap(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*stack) = (*stack)->next;
-	head->next = (*stack)->next;
-	head->prev = *stack;
-	(*stack)->prev = NULL;
-	(*stack)->next = head;
+	sum = (*stack)->n;
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = value;
 }
 
 /**
