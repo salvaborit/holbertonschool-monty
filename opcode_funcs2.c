@@ -27,10 +27,14 @@ void op_add(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "L%d: can't add, stack too short", line_number);
 		exit(EXIT_FAILURE);
 	}
-	sum = sum_stack_t(head);
+	sum = (*stack)->n + head->n;
+	head = head->next;
+	pop(stack, line_number);
+	head->n = sum;
+	/*sum = sum_stack_t(head);
 	delete_dnodeint_at_index(&head, 0);
 	delete_dnodeint_at_index(&head, 1);
-	add_nodeint(&head, sum);
+	add_nodeint(&head, sum);*/
 }
 
 /**
