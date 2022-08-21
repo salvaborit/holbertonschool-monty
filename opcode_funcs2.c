@@ -19,7 +19,7 @@ void op_swap(stack_t **stack, unsigned int line_number)
 void op_add(stack_t **stack, unsigned int line_number)
 {
 	stack_t *head = *stack;
-	int /*stackSize = 0, sum,*/ i = 0;
+	int /*stackSize = 0,*/ sum, i = 0;
 
 	while (head)
 	{
@@ -33,12 +33,10 @@ void op_add(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n += (*stack)->n;
-	op_pop(stack, line_number);
-	/*sum = sum_stack_t(head);
+	sum = sum_stack_t(head);
 	delete_dnodeint_at_index(&head, 0);
 	delete_dnodeint_at_index(&head, 1);
-	add_nodeint(&head, sum);*/
+	add_nodeint(&head, sum);
 }
 
 /**
