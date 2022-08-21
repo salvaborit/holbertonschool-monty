@@ -98,7 +98,7 @@ void op_pop(stack_t **stack, unsigned int line_number)
 	*stack = head->next;
 	if (head->next != NULL)
 	{
-		head->next->prev = NULL
+		head->next->prev = NULL;
 	}
 	free(head);
 }
