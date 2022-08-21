@@ -34,7 +34,7 @@ void op_add(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 	head = (*stack)->next;
-	sum = (*stack)->n + head->n;
+	sum = (*stack)->n + head->n + 1;
 	head->n = sum;
 	op_pop(stack, line_number);
 	/*sum = sum_stack_t(head);
