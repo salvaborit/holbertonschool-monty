@@ -19,7 +19,7 @@ void op_swap(stack_t **stack, unsigned int line_number)
 void op_add(stack_t **stack, unsigned int line_number)
 {
 	stack_t *head = *stack;
-	int /*stackSize = 0, */sum = 0, i = 0;
+	int /*stackSize = 0, */sum, i = 0;
 
 	while (head)
 	{
@@ -52,4 +52,5 @@ void op_nop(stack_t **stack, unsigned int line_number)
 {
 	(void) stack;
 	(void) line_number;
+	return;
 }
